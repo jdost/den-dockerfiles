@@ -1,0 +1,3 @@
+export IMAGENAME="python2"
+
+[[ -e "/src/requirements.txt" ]] && pip -q install -r /src/requirements.txt

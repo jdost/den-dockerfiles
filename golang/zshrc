@@ -1,0 +1,25 @@
+export IMAGENAME="go"
+[[ ! -d "/root/go" ]] && mkdir /root/go
+export GOPATH=/root/go/
+export GOROOT=/usr/lib/go/
+export PATH=$PATH:$GOPATH/bin/
+
+# Make the src repo work with the GOPATH stuff
+ORIGIN=$(git remote get-url origin)
+if [[ -z "$ORIGIN" ]]; then
+   mkdir -p $GOPATH/src
+   FULL_PATH=$(hostname)
+else
+   SSH_PATH=$(echo $ORIGIN | cut -d'@' -f2)
+   if [[ -z "$SSH_PATH" ]]; then
+      FULL_PATH=$(echo $ORIGIN | cut -d'/' -f3)
+   else
+      FULL_PATH=$(echo $SSH_PATH | rev | cut -d'.' -f2- | rev | sed 's/:/\//')
+   fi
+
+   CONTAINING_DIR="$(echo $FULL_PATH | rev | cut -d'/' -f2- | rev)"
+   mkdir -p $GOPATH/src/$CONTAINING_DIR
+fi
+
+ln -s /src $GOPATH/src/$FULL_PATH
+cd $GOPATH/src/$FULL_PATH

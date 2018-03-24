@@ -1,0 +1,27 @@
+zstyle ':completion:*' completer _complete _ignored
+zstyle :compinstall filename $HOME'/.zshrc'
+
+autoload -U compinit && compinit
+autoload -U colors && colors
+
+zmodload zsh/complist
+zmodload zsh/terminfo
+
+# History settings
+HISTFILE=$HOME/.zsh_histfile
+HISTSIZE=10000
+SAVEHIST=10000
+
+# Shell options
+setopt nobeep
+setopt correct
+setopt prompt_subst
+
+# Load modules {{{
+for m in /etc/zsh/zsh.d/*; do
+   [[ $DEBUG > 0 ]] && echo "zsh: sourcing $m"
+   source $m
+done # }}}
+
+umask 0000  # all writes will have full access, so it doesn't pollute the bound
+  # filesystem with unwritable files (still has bad ownership)

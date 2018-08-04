@@ -1,7 +1,7 @@
-images = development python3 python2 golang
+images = development python3 python2 golang haskell nodejs
 
 .PHONY: all $(images)
-all: $(images)
+all: development python3 python2 golang
 
 $(images):
 	@echo

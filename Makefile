@@ -1,4 +1,4 @@
-images = development python3 python2 golang
+images = development python3 python2 golang rust
 
 .PHONY: all $(images)
 all: $(images)

@@ -7,7 +7,7 @@ $(images):
 	@echo
 	@echo Builder $@ image...
 	@echo
-	cd $@ && docker build -t $@ --label den .
+	cd $@ && docker build --force-rm -t $@ --label den .
 	@echo
 
 .PHONY: clean

@@ -11,11 +11,16 @@ if [[ -z "$ORIGIN" ]]; then
    mkdir -p $GOPATH/src
    FULL_PATH=$(hostname)
 else
-   SSH_PATH=$(echo $ORIGIN | cut -d'@' -f2)
-   if [[ -z "$SSH_PATH" ]]; then
+   if echo $ORIGIN | grep '@'; then
+      ORIGIN_PATH=$(echo $ORIGIN | cut -d'@' -f2)
+   else
+      ORIGIN_PATH=$(echo $ORIGIN | sed 's|https://||')
+   fi
+
+   if [[ -z "$ORIGIN_PATH" ]]; then
       FULL_PATH=$(echo $ORIGIN | cut -d'/' -f3)
    else
-      FULL_PATH=$(echo $SSH_PATH | rev | cut -d'.' -f2- | rev | sed 's/:/\//')
+      FULL_PATH=$(echo $ORIGIN_PATH | rev | cut -d'.' -f2- | rev | sed 's/:/\//')
    fi
 
    CONTAINING_DIR="$(echo $FULL_PATH | rev | cut -d'/' -f2- | rev)"
